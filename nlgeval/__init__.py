@@ -9,6 +9,7 @@ from nlgeval.pycocoevalcap.bleu.bleu import Bleu
 from nlgeval.pycocoevalcap.cider.cider import Cider
 from nlgeval.pycocoevalcap.meteor.meteor import Meteor
 from nlgeval.pycocoevalcap.rouge.rouge import Rouge
+from nlgeval.pycocoevalcap.answerability.answerability import Answerability
 
 
 # str/unicode stripping in Python 2 and 3 instead of `str.strip`.
@@ -34,7 +35,8 @@ def compute_metrics(hypothesis, references, no_overlap=False, no_skipthoughts=Fa
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(), "METEOR"),
             (Rouge(), "ROUGE_L"),
-            (Cider(), "CIDEr")
+            (Cider(), "CIDEr"),
+            (Answerability(), "Answerability")
         ]
         for scorer, method in scorers:
             score, scores = scorer.compute_score(refs, hyps)
@@ -99,7 +101,8 @@ def compute_individual_metrics(ref, hyp, no_overlap=False, no_skipthoughts=False
             (Bleu(4), ["Bleu_1", "Bleu_2", "Bleu_3", "Bleu_4"]),
             (Meteor(), "METEOR"),
             (Rouge(), "ROUGE_L"),
-            (Cider(), "CIDEr")
+            (Cider(), "CIDEr"),
+            (Answerability(), "Answerability")
         ]
         for scorer, method in scorers:
             score, scores = scorer.compute_score(refs, hyps)
@@ -153,6 +156,7 @@ class NLGEval(object):
                         'METEOR',
                         'ROUGE_L',
                         'CIDEr',
+                        'Answerability'
 
                         # Skip-thought
                         'SkipThoughtCS',
@@ -214,6 +218,9 @@ class NLGEval(object):
             self.scorers.append((Rouge(), "ROUGE_L"))
         if 'CIDEr' not in self.metrics_to_omit:
             self.scorers.append((Cider(), "CIDEr"))
+        if 'Answerability' not in self.metrics_to_omit:
+            self.scorers.append((Answerability(), "Answerability"))
+
 
 
     def load_skipthought_model(self):
