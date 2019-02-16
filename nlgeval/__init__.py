@@ -156,7 +156,7 @@ class NLGEval(object):
                         'METEOR',
                         'ROUGE_L',
                         'CIDEr',
-                        'Answerability'
+                        'Answerability',
 
                         # Skip-thought
                         'SkipThoughtCS',
